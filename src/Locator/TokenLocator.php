@@ -18,6 +18,7 @@ class TokenLocator
         $this->operators = [
             new Operator\BracesOperator(),
             new Operator\CtTokenOperator(),
+            new Operator\EndBlockOperator(),
             new Operator\MethodByNameOperator(),
             new Operator\NextMeaningfulTokenOperator(),
             new Operator\NextNonWhitespaceTokenOperator(),
@@ -26,6 +27,7 @@ class TokenLocator
             new Operator\PreviousMeaningfulTokenOperator(),
             new Operator\PreviousNonWhitespaceTokenOperator(),
             new Operator\PreviousTokenOperator(),
+            new Operator\StartBlockOperator(),
         ];
     }
 
