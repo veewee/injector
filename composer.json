@@ -1,0 +1,13 @@
+{
+    "autoload": {
+        "psr-4": {
+            "CopyPaste\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/console": "^4.0",
+        "symfony/finder": "^4.0",
+        "friendsofphp/php-cs-fixer": "^2.10",
+        "sebastian/diff": "^3.0"
+    }
+}
