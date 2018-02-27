@@ -33,8 +33,8 @@ Options:
 
 ## Examples
 
-```
-echo " implements MyInterface" | ./bin/injector 'src/Testing' 'T_CLASS { <' --dry-run -v
+```sh
+echo " implements MyInterface" | ./bin/injector 'src/Testing' 'T_CLASS { <' --dry-run
 echo "\nuse New\Imported\ClassName;" | ./bin/injector 'src/Testing' 'NEWUSE(New\\Imported\\Class)' --dry-run
 echo "return 'Do something';\n        " | ./bin/injector 'src/Testing' 'METHODNAME(myFunction) { > >' --dry-run
 
@@ -45,9 +45,9 @@ echo "return 'Do something';\n        " | ./bin/injector 'src/Testing' 'METHODNA
 Every operation is split based on a space.
 For example.: `T_CLASS { <` contains out 3 tokens:
 
-- T_CLASS
-- {
-- <
+- `T_CLASS`: Will search for the next occurrence of the `class` keyword
+- `{`: Will search for the next occurrence of the brace with type `{`
+- `<`: Will select the previous token
 
 These tokens will be detected in this orde.
 
@@ -56,7 +56,7 @@ These tokens will be detected in this orde.
 **Token lookups**
 - `T_*`: Detect next token of PHP parser token constant. (Or the CT class in php-cs-fixer)
 
-**Curly lookups**
+**Brace lookups**
 - `{}[]()`: Detect next token of the selected brace type
 - `ENDBLOCK(]}))`: Detect the end block of the selected brace type.
 - `STARTBLOCK([{()`: Detect the start block of the selected brace type.
