@@ -20,6 +20,7 @@ class TokenLocator
             new Operator\CtTokenOperator(),
             new Operator\EndBlockOperator(),
             new Operator\MethodByNameOperator(),
+            new Operator\NewUseLocationOperator(),
             new Operator\NextMeaningfulTokenOperator(),
             new Operator\NextNonWhitespaceTokenOperator(),
             new Operator\NextTokenOperator(),
