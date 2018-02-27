@@ -54,7 +54,7 @@ These tokens will be detected in this orde.
 ### Available location operations
 
 **Token lookups**
-- `T_*`: Detect next token of PHP parser token constant. (Or the CT class in php-cs-fixer)
+- `T_*`: Detect next token of [PHP parser token constant](http://php.net/manual/en/tokens.php). (Or the CT class in php-cs-fixer)
 
 **Brace lookups**
 - `{}[]()`: Detect next token of the selected brace type
