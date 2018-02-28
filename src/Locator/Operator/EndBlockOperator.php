@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace CopyPaste\Locator\Operator;
+namespace Injector\Locator\Operator;
 
+use Injector\Exception\LocationException;
 use PhpCsFixer\Tokenizer\Tokens;
 
-class EndBlockOperator implements TokenOperatorInterface
+final class EndBlockOperator implements TokenOperatorInterface
 {
-
     private const END_BLOCK_REGEX = '/ENDBLOCK\(([\]\}\)])\)/';
 
     private static $supportedOperators = [
-        ']' => Tokens::BLOCK_TYPE_INDEX_SQUARE_BRACE,
+        ']' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
         '}' => Tokens::BLOCK_TYPE_CURLY_BRACE,
-        ')' => Tokens::BLOCK_TYPE_INDEX_SQUARE_BRACE,
+        ')' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
     ];
 
     public function operates(string $location): bool
@@ -34,7 +34,7 @@ class EndBlockOperator implements TokenOperatorInterface
         $brace = $matches[1] ?? '';
 
         if (!array_key_exists($brace, self::$supportedOperators)) {
-            throw new \RuntimeException('Could not detect endblock brace for ' . $brace);
+            throw new LocationException('Could not detect endblock brace for '.$brace);
         }
 
         return self::$supportedOperators[$brace];

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of PHP CS Fixer.
  *
@@ -10,10 +12,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace CopyPaste\Locator\Analyzer\Analysis;
+namespace Injector\Locator\Analyzer\Analysis;
 
 /**
- * TODO: remove once this one is in php-cs-fixer core
+ * TODO: remove once this one is in php-cs-fixer core.
+ *
  * @internal
  */
 final class NamespaceUseAnalysis

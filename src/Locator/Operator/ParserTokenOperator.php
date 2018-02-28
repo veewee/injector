@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace CopyPaste\Locator\Operator;
+namespace Injector\Locator\Operator;
 
 use PhpCsFixer\Tokenizer\Tokens;
 
-class ParserTokenOperator implements TokenOperatorInterface
+final class ParserTokenOperator implements TokenOperatorInterface
 {
     public function operates(string $location): bool
     {
-        return strpos($location, 'T_') === 0 && \defined($location);
+        return 0 === mb_strpos($location, 'T_') && \defined($location);
     }
 
     public function searchIndex(Tokens $tokens, int $previousIndex, string $location): ?int

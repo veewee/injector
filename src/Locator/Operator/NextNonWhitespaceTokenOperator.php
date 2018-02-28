@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace CopyPaste\Locator\Operator;
+namespace Injector\Locator\Operator;
 
 use PhpCsFixer\Tokenizer\Tokens;
 
-class NextNonWhitespaceTokenOperator implements TokenOperatorInterface
+final class NextNonWhitespaceTokenOperator implements TokenOperatorInterface
 {
     public function operates(string $location): bool
     {

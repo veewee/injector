@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CopyPaste\Locator\Operator;
+namespace Injector\Locator\Operator;
 
 use PhpCsFixer\Tokenizer\Tokens;
 

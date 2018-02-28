@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace CopyPaste\Locator\Operator;
+namespace Injector\Locator\Operator;
 
 use PhpCsFixer\Tokenizer\Tokens;
 
-class MethodByNameOperator implements TokenOperatorInterface
+final class MethodByNameOperator implements TokenOperatorInterface
 {
     private const METHOD_FUNC_REGEX = '/METHODNAME\(([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\)/';
 

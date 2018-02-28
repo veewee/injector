@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace CopyPaste\Locator\Operator;
+namespace Injector\Locator\Operator;
 
-use CopyPaste\Locator\Analyzer\NamespaceUsesAnalyzer;
+use Injector\Exception\LocationException;
+use Injector\Locator\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Tokens;
 
-class NewUseLocationOperator implements TokenOperatorInterface
+final class NewUseLocationOperator implements TokenOperatorInterface
 {
     private const NEW_USE_REGEX = '/NEWUSE\(([^\)].*)\)/';
 
     public function operates(string $location): bool
     {
-        return (bool)preg_match(self::NEW_USE_REGEX, $location);
+        return (bool) preg_match(self::NEW_USE_REGEX, $location);
     }
 
     public function searchIndex(Tokens $tokens, int $previousIndex, string $location): ?int
@@ -24,7 +25,7 @@ class NewUseLocationOperator implements TokenOperatorInterface
 
         foreach ($existingUses as $existingUse) {
             if ($existingUse->getFullName() === $useClass) {
-                throw new \RuntimeException('Use statement for ' . $useClass . ' already exists in file.');
+                throw new LocationException('Use statement for '.$useClass.' already exists in file.');
             }
 
             // Check imports alphabetically

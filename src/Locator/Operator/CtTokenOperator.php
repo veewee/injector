@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace CopyPaste\Locator\Operator;
+namespace Injector\Locator\Operator;
 
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 
-class CtTokenOperator implements TokenOperatorInterface
+final class CtTokenOperator implements TokenOperatorInterface
 {
     public function operates(string $location): bool
     {
@@ -21,6 +21,6 @@ class CtTokenOperator implements TokenOperatorInterface
 
     private function parseCtTokenString(string $location): string
     {
-        return CT::class . '::' . $location;
+        return CT::class.'::'.$location;
     }
 }

@@ -2,45 +2,36 @@
 
 declare(strict_types=1);
 
-namespace CopyPaste\Locator;
+namespace Injector\Locator;
 
+use Injector\Exception\LocationException;
+use Injector\Locator\Operator\TokenOperatorInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 
-class TokenLocator
+final class TokenLocator
 {
     /**
-     * @var Operator\TokenOperatorInterface[]
+     * @var TokenOperatorInterface
      */
-    private $operators;
+    private $tokenOperator;
 
-    public function __construct()
+    public function __construct(TokenOperatorInterface $tokenOperator)
     {
-        $this->operators = [
-            new Operator\BracesOperator(),
-            new Operator\CtTokenOperator(),
-            new Operator\EndBlockOperator(),
-            new Operator\MethodByNameOperator(),
-            new Operator\NewUseLocationOperator(),
-            new Operator\NextMeaningfulTokenOperator(),
-            new Operator\NextNonWhitespaceTokenOperator(),
-            new Operator\NextTokenOperator(),
-            new Operator\ParserTokenOperator(),
-            new Operator\PreviousMeaningfulTokenOperator(),
-            new Operator\PreviousNonWhitespaceTokenOperator(),
-            new Operator\PreviousTokenOperator(),
-            new Operator\StartBlockOperator(),
-        ];
+        $this->tokenOperator = $tokenOperator;
     }
 
     public function locate(Tokens $tokens, string $location): int
     {
         $index = 0;
         foreach ($this->parseLocationString($location) as $currentLocation) {
-            $index = $this->searchIndex($tokens, $index, $currentLocation);
+            $index = $this->tokenOperator->searchIndex($tokens, $index, $currentLocation);
+            if (null === $index) {
+                throw LocationException::fromToken($currentLocation);
+            }
         }
 
         if (0 === $index) {
-            throw new \RuntimeException('Could not locate ' . $location);
+            throw LocationException::fromFullLocation($location);
         }
 
         return $index;
@@ -54,28 +45,5 @@ class TokenLocator
                 explode(' ', $location)
             )
         );
-    }
-
-    private function searchIndex(Tokens $tokens, int $previousIndex, string $location): int
-    {
-        $operator = $this->getOperatorForLocation($location);
-        $index = $operator->searchIndex($tokens, $previousIndex, $location);
-
-        if (null === $index) {
-            throw new \RuntimeException('The token ' . $location . ' could not be found.');
-        }
-
-        return $index;
-    }
-
-    private function getOperatorForLocation(string $location): Operator\TokenOperatorInterface
-    {
-        foreach ($this->operators as $operator) {
-            if ($operator->operates($location)) {
-                return $operator;
-            }
-        }
-
-        throw new \RuntimeException('Could not detect operator for location ' . $location);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of PHP CS Fixer.
  *
@@ -10,15 +12,16 @@
  * with this source code in the file LICENSE.
  */
 
-namespace CopyPaste\Locator\Analyzer;
+namespace Injector\Locator\Analyzer;
 
-use CopyPaste\Locator\Analyzer\Analysis\NamespaceUseAnalysis;
+use Injector\Locator\Analyzer\Analysis\NamespaceUseAnalysis;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 
 /**
- *  TODO: remove once this one is in php-cs-fixer core
+ *  TODO: remove once this one is in php-cs-fixer core.
+ *
  * @internal
  */
 final class NamespaceUsesAnalyzer
@@ -47,7 +50,7 @@ final class NamespaceUsesAnalyzer
         $uses = [];
 
         foreach ($useIndexes as $index) {
-            $endIndex = $tokens->getNextTokenOfKind($index, [';', [T_CLOSE_TAG]]);
+            $endIndex = (int) $tokens->getNextTokenOfKind($index, [';', [T_CLOSE_TAG]]);
             $analysis = $this->parseDeclaration($tokens, $index, $endIndex);
             if ($analysis) {
                 $uses[$analysis->getShortName()] = $analysis;
@@ -62,7 +65,7 @@ final class NamespaceUsesAnalyzer
      * @param int    $startIndex
      * @param int    $endIndex
      *
-     * @return null|NamespaceUseAnalysis
+     * @return NamespaceUseAnalysis|null
      */
     private function parseDeclaration(Tokens $tokens, $startIndex, $endIndex)
     {
@@ -86,9 +89,14 @@ final class NamespaceUsesAnalyzer
                 if (!$aliased) {
                     $fullName .= $shortName;
                 }
-            } elseif ($token->isGivenKind(T_NS_SEPARATOR)) {
+                continue;
+            }
+            if ($token->isGivenKind(T_NS_SEPARATOR)) {
                 $fullName .= $token->getContent();
-            } elseif ($token->isGivenKind(T_AS)) {
+                continue;
+            }
+
+            if ($token->isGivenKind(T_AS)) {
                 $aliased = true;
             }
         }

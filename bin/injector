@@ -3,7 +3,4 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = new \Symfony\Component\Console\Application();
-$app->add(new \CopyPaste\Console\Command\CopyPasteCommand());
-$app->setDefaultCommand('copy-paste', true);
-$app->run();
+\Injector\Console\ApplicationFactory::create(STDIN)->run();

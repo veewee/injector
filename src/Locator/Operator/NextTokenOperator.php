@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace CopyPaste\Locator\Operator;
+namespace Injector\Locator\Operator;
 
 use PhpCsFixer\Tokenizer\Tokens;
 
-class NextTokenOperator implements TokenOperatorInterface
+final class NextTokenOperator implements TokenOperatorInterface
 {
     public function operates(string $location): bool
     {
@@ -16,6 +16,7 @@ class NextTokenOperator implements TokenOperatorInterface
     public function searchIndex(Tokens $tokens, int $previousIndex, string $location): ?int
     {
         $nextIndex = $previousIndex + 1;
-        return ($nextIndex <= $tokens->getSize()) ? $nextIndex : null;
+
+        return ($nextIndex <= $tokens->getSize() && $nextIndex >= 0) ? $nextIndex : null;
     }
 }

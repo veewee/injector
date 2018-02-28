@@ -1,2 +1,5 @@
 vendor
 composer.lock
+injector.phar
+var
+.php_cs.cache
