@@ -25,7 +25,7 @@ class InjectorCommandTest extends TestCase
      */
     private $fileSystem;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->differ = new Differ();
         $this->fileSystem = new FileSystem();
@@ -34,18 +34,18 @@ class InjectorCommandTest extends TestCase
         file_put_contents($this->fileSystem->path('/src/helloworld.php'), '<?php ');
     }
 
-    function test_it_crashes_on_empty_input()
+    public function test_it_crashes_on_empty_input(): void
     {
         $this->expectExceptionObject(InputStreamException::fromEmptyStdIn());
 
         $tester = $this->createCommandTester('');
         $tester->execute([
             'src' => $this->fileSystem->path('/src'),
-            'location' => 'T_CLASS'
+            'location' => 'T_CLASS',
         ]);
     }
 
-    function test_it_crashes_on_empty_src()
+    public function test_it_crashes_on_empty_src(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -53,7 +53,7 @@ class InjectorCommandTest extends TestCase
         $tester->execute([]);
     }
 
-    function test_it_crashes_on_empty_location()
+    public function test_it_crashes_on_empty_location(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -63,7 +63,7 @@ class InjectorCommandTest extends TestCase
         ]);
     }
 
-    function test_it_crashes_on_invalid_src()
+    public function test_it_crashes_on_invalid_src(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -74,7 +74,7 @@ class InjectorCommandTest extends TestCase
         ]);
     }
 
-    function test_it_returns_errorcode_on_invalid_location()
+    public function test_it_returns_errorcode_on_invalid_location(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -86,11 +86,11 @@ class InjectorCommandTest extends TestCase
 
         $file = $this->fileSystem->path('/src/helloworld.php');
         $this->assertEquals(1, $tester->getStatusCode());
-        $this->assertContains('Could not copy / paste in ' . $file, $tester->getDisplay());
+        $this->assertContains('Could not copy / paste in '.$file, $tester->getDisplay());
         $this->assertSame('<?php ', file_get_contents($file));
     }
 
-    function test_it_returns_errorcode_on_tokens_that_could_not_be_found()
+    public function test_it_returns_errorcode_on_tokens_that_could_not_be_found(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -102,11 +102,11 @@ class InjectorCommandTest extends TestCase
 
         $file = $this->fileSystem->path('/src/helloworld.php');
         $this->assertEquals(1, $tester->getStatusCode());
-        $this->assertContains('Could not copy / paste in ' . $file, $tester->getDisplay());
+        $this->assertContains('Could not copy / paste in '.$file, $tester->getDisplay());
         $this->assertSame('<?php ', file_get_contents($file));
     }
 
-    function test_it_writes_copy_pasted_data_to_file()
+    public function test_it_writes_copy_pasted_data_to_file(): void
     {
         $tester = $this->createCommandTester('echo "Hello world";');
         $tester->execute([
@@ -119,12 +119,12 @@ class InjectorCommandTest extends TestCase
         $expectedDiff = $this->differ->diff('<?php ', $expectedCode);
 
         $this->assertEquals(0, $tester->getStatusCode());
-        $this->assertContains('Handled ' . $file, $tester->getDisplay());
+        $this->assertContains('Handled '.$file, $tester->getDisplay());
         $this->assertContains($expectedDiff, $tester->getDisplay());
         $this->assertSame($expectedCode, file_get_contents($file));
     }
 
-    function test_it_writes_copy_pasted_data_to_screen_during_dry_run()
+    public function test_it_writes_copy_pasted_data_to_screen_during_dry_run(): void
     {
         $tester = $this->createCommandTester('echo "Hello world";');
         $tester->execute([
@@ -138,7 +138,7 @@ class InjectorCommandTest extends TestCase
         $expectedDiff = $this->differ->diff('<?php ', $expectedCode);
 
         $this->assertEquals(0, $tester->getStatusCode());
-        $this->assertContains('Handled ' . $file, $tester->getDisplay());
+        $this->assertContains('Handled '.$file, $tester->getDisplay());
         $this->assertContains($expectedDiff, $tester->getDisplay());
         $this->assertSame('<?php ', file_get_contents($file));
     }
@@ -146,7 +146,7 @@ class InjectorCommandTest extends TestCase
     private function createCommandTester(string $inputData): CommandTester
     {
         $input = fopen('php://memory', 'rwb');
-        fwrite($input, $inputData . PHP_EOL);
+        fwrite($input, $inputData.PHP_EOL);
         rewind($input);
 
         $application = ApplicationFactory::create($input);
@@ -155,5 +155,4 @@ class InjectorCommandTest extends TestCase
 
         return new CommandTester($command);
     }
-
 }

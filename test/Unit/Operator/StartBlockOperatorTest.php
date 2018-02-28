@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 class StartBlockOperatorTest extends TestCase
 {
-    function test_it_is_a_token_operator()
+    public function test_it_is_a_token_operator(): void
     {
         $this->assertInstanceOf(TokenOperatorInterface::class, new BracesOperator());
     }
@@ -23,7 +23,7 @@ class StartBlockOperatorTest extends TestCase
     /**
      * @dataProvider providesOperatesData
      */
-    function test_it_operates(string $location, bool $expected)
+    public function test_it_operates(string $location, bool $expected): void
     {
         $operator = new StartBlockOperator();
         $this->assertSame($expected, $operator->operates($location));
@@ -32,7 +32,7 @@ class StartBlockOperatorTest extends TestCase
     /**
      * @dataProvider providesSearchIndexesData
      */
-    function test_it_searches_indexes(string $code, string $location, int $previousIndex, ?int $expected)
+    public function test_it_searches_indexes(string $code, string $location, int $previousIndex, ?int $expected): void
     {
         $operator = new StartBlockOperator();
         $tokens = Tokens::fromCode($code);
@@ -42,7 +42,7 @@ class StartBlockOperatorTest extends TestCase
     /**
      * @dataProvider providesExceptionSearchIndexesData
      */
-    function test_it_throws_exceptions_on_invalid_data(string $code, string $location, int $previousIndex)
+    public function test_it_throws_exceptions_on_invalid_data(string $code, string $location, int $previousIndex): void
     {
         $this->expectException(\Throwable::class);
 
@@ -70,7 +70,6 @@ class StartBlockOperatorTest extends TestCase
             ['<?php class SomeClass { function x() { return []; } }', 'STARTBLOCK(()', 11, 10],
             ['<?php class SomeClass { function x() { return []; } }', 'STARTBLOCK({)', 21, 13],
             ['<?php class SomeClass { function x() { return []; } }', 'STARTBLOCK([)', 18, 17],
-
         ];
     }
 

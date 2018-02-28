@@ -16,7 +16,7 @@ class NextTokenOperatorTest extends TestCase
     /**
      * @dataProvider providesOperatesData
      */
-    function test_it_operates(string $location, bool $expected)
+    public function test_it_operates(string $location, bool $expected): void
     {
         $operator = new NextTokenOperator();
         $this->assertSame($expected, $operator->operates($location));
@@ -25,7 +25,7 @@ class NextTokenOperatorTest extends TestCase
     /**
      * @dataProvider providesSearchIndexesData
      */
-    function test_it_searches_indexes(string $code, string $location, int $previousIndex, ?int $expected)
+    public function test_it_searches_indexes(string $code, string $location, int $previousIndex, ?int $expected): void
     {
         $operator = new NextTokenOperator();
         $tokens = Tokens::fromCode($code);

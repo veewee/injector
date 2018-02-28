@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 class PreviousTokenOperatorTest extends TestCase
 {
-    function test_it_is_a_token_operator()
+    public function test_it_is_a_token_operator(): void
     {
         $this->assertInstanceOf(TokenOperatorInterface::class, new PreviousTokenOperator());
     }
@@ -22,7 +22,7 @@ class PreviousTokenOperatorTest extends TestCase
     /**
      * @dataProvider providesOperatesData
      */
-    function test_it_operates(string $location, bool $expected)
+    public function test_it_operates(string $location, bool $expected): void
     {
         $operator = new PreviousTokenOperator();
         $this->assertSame($expected, $operator->operates($location));
@@ -31,7 +31,7 @@ class PreviousTokenOperatorTest extends TestCase
     /**
      * @dataProvider providesSearchIndexesData
      */
-    function test_it_searches_indexes(string $code, string $location, int $previousIndex, ?int $expected)
+    public function test_it_searches_indexes(string $code, string $location, int $previousIndex, ?int $expected): void
     {
         $operator = new PreviousTokenOperator();
         $tokens = Tokens::fromCode($code);

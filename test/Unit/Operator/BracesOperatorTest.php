@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 class BracesOperatorTest extends TestCase
 {
-    function test_it_is_a_token_operator()
+    public function test_it_is_a_token_operator(): void
     {
         $this->assertInstanceOf(TokenOperatorInterface::class, new BracesOperator());
     }
@@ -22,7 +22,7 @@ class BracesOperatorTest extends TestCase
     /**
      * @dataProvider providesOperatesData
      */
-    function test_it_operates(string $location, bool $expected)
+    public function test_it_operates(string $location, bool $expected): void
     {
         $operator = new BracesOperator();
         $this->assertSame($expected, $operator->operates($location));
@@ -31,7 +31,7 @@ class BracesOperatorTest extends TestCase
     /**
      * @dataProvider providesSearchIndexesData
      */
-    function test_it_searches_indexes(string $code, string $location, int $previousIndex, ?int $expected)
+    public function test_it_searches_indexes(string $code, string $location, int $previousIndex, ?int $expected): void
     {
         $operator = new BracesOperator();
         $tokens = Tokens::fromCode($code);

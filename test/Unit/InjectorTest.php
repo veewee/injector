@@ -84,6 +84,7 @@ class InjectorTest extends TestCase
     public function test_invalid_linting(): void
     {
         $this->markTestSkipped('The linter is not doing anythng during tests ...');
+
         return;
 
         $data = Tokens::fromCode('invalid PHP code ... (');

@@ -26,6 +26,7 @@ final class BracesOperator implements TokenOperatorInterface
     public function searchIndex(Tokens $tokens, int $previousIndex, string $location): ?int
     {
         $lookupTokens = self::LOOKUPS[$location];
+
         return $tokens->getNextTokenOfKind($previousIndex, $lookupTokens);
     }
 }

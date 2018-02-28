@@ -21,12 +21,12 @@ class TokenLocatorTest extends TestCase
      */
     private $tokenOperator;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->tokenOperator = $this->prophesize(TokenOperatorInterface::class);
     }
 
-    function test_it_can_locate_token_index_by_single_location()
+    public function test_it_can_locate_token_index_by_single_location(): void
     {
         $tokens = Tokens::fromCode('<?php class X {}');
         $locator = new TokenLocator($this->tokenOperator->reveal());
@@ -35,7 +35,7 @@ class TokenLocatorTest extends TestCase
         $this->assertSame(1, $locator->locate($tokens, 'T_CLASS'));
     }
 
-    function test_it_can_locate_token_index_by_multiple_locations()
+    public function test_it_can_locate_token_index_by_multiple_locations(): void
     {
         $tokens = Tokens::fromCode('<?php class X {}');
         $locator = new TokenLocator($this->tokenOperator->reveal());
@@ -45,7 +45,7 @@ class TokenLocatorTest extends TestCase
         $this->assertSame(2, $locator->locate($tokens, 'T_CLASS {'));
     }
 
-    function test_it_knows_when_a_location_token_cant_be_found()
+    public function test_it_knows_when_a_location_token_cant_be_found(): void
     {
         $tokens = Tokens::fromCode('<?php class X {}');
         $locator = new TokenLocator($this->tokenOperator->reveal());
@@ -56,7 +56,7 @@ class TokenLocatorTest extends TestCase
         $locator->locate($tokens, 'T_CLASS {');
     }
 
-    function test_it_knows_when_a_location_string_cant_be_found()
+    public function test_it_knows_when_a_location_string_cant_be_found(): void
     {
         $tokens = Tokens::fromCode('<?php class X {}');
         $locator = new TokenLocator($this->tokenOperator->reveal());
