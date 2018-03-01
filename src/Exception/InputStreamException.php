@@ -13,7 +13,7 @@ class InputStreamException extends RuntimeException
         );
     }
 
-    public static function fromEmptyStdIn(): self
+    public static function fromEmptyInputStream(): self
     {
         return new self('No input detected. Please pipe data to stdin.');
     }

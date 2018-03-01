@@ -21,7 +21,7 @@ class ConsoleStyle extends SymfonyStyle
         // When the input only consist of white space characters, we assume that there is no input.
         $code = !preg_match_all('/^([\s]*)$/', $input) ? $input : '';
         if (!$code) {
-            throw InputStreamException::fromEmptyStdIn();
+            throw InputStreamException::fromEmptyInputStream();
         }
 
         // Strip automatically added newline at EOF

@@ -34,11 +34,6 @@ final class NewUseLocationOperator implements TokenOperatorInterface
             }
         }
 
-        // It did not find a good location ...
-        if ($injectAtIndex === $previousIndex) {
-            return null;
-        }
-
         return $injectAtIndex;
     }
 

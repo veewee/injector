@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace InjectorTest\Integration;
+namespace InjectorTest\Integration\Console\Command;
 
 use Injector\Console\ApplicationFactory;
 use Injector\Console\Command\InjectorCommand;
@@ -36,7 +36,7 @@ class InjectorCommandTest extends TestCase
 
     public function test_it_crashes_on_empty_input(): void
     {
-        $this->expectExceptionObject(InputStreamException::fromEmptyStdIn());
+        $this->expectExceptionObject(InputStreamException::fromEmptyInputStream());
 
         $tester = $this->createCommandTester('');
         $tester->execute([

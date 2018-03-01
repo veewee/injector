@@ -10,11 +10,14 @@ use Injector\Injector;
 use Injector\Locator\Operator\TokenOperatorInterface;
 use Injector\Locator\TokenLocator;
 use PhpCsFixer\Linter\Linter;
+use PhpCsFixer\Linter\LinterInterface;
+use PhpCsFixer\Linter\UnavailableLinterException;
 use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Diff\Output\DiffOutputBuilderInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -76,24 +79,89 @@ class InjectorTest extends TestCase
         $this->assertSame($exception, $result->getException());
     }
 
-    public function test_invalid_diff(): void
+    public function test_invalid_diff_with_a_previous_exception(): void
     {
-        $this->markTestSkipped('Not sure how to trigger a differ issue ...');
+        $injector = new Injector(
+            new TokenLocator($this->tokenOperator->reveal()),
+            $this->mockErrorDiffer(),
+            $this->mockErrorLinter()
+        );
+
+        $data = Tokens::fromCode('invalid PHP code ... (');
+        $result = $injector->inject($this->file->reveal(), $data, 'somelocation');
+
+        $this->assertInstanceOf(InjectionResult::class, $result);
+        $this->assertFalse($result->isSuccessfull());
+        $this->assertNotNull($result->getNewCode());
+        $this->assertNull($result->getDiff());
+        $this->assertNotNull($result->getException());
+        $this->assertInstanceOf(UnavailableLinterException::class, $result->getException());
+    }
+
+    public function test_invalid_diff_with_no_previous_exception(): void
+    {
+        $injector = new Injector(
+            new TokenLocator($this->tokenOperator->reveal()),
+            $this->mockErrorDiffer(),
+            new Linter()
+        );
+
+        $data = Tokens::fromCode('invalid PHP code ... (');
+        $result = $injector->inject($this->file->reveal(), $data, 'somelocation');
+
+        $this->assertInstanceOf(InjectionResult::class, $result);
+        $this->assertFalse($result->isSuccessfull());
+        $this->assertNotNull($result->getNewCode());
+        $this->assertNull($result->getDiff());
+        $this->assertNotNull($result->getException());
+        $this->assertInstanceOf(\RuntimeException::class, $result->getException());
     }
 
     public function test_invalid_linting(): void
     {
-        $this->markTestSkipped('The linter is not doing anythng during tests ...');
-
-        return;
+        $injector = new Injector(
+            new TokenLocator($this->tokenOperator->reveal()),
+            new Differ(),
+            $this->mockErrorLinter()
+        );
 
         $data = Tokens::fromCode('invalid PHP code ... (');
-        $result = $this->injector->inject($this->file->reveal(), $data, 'somelocation');
+        $result = $injector->inject($this->file->reveal(), $data, 'somelocation');
 
         $this->assertInstanceOf(InjectionResult::class, $result);
         $this->assertFalse($result->isSuccessfull());
         $this->assertNotNull($result->getNewCode());
         $this->assertNotNull($result->getDiff());
         $this->assertNotNull($result->getException());
+    }
+
+    private function mockErrorLinter(): LinterInterface
+    {
+        return new class() implements LinterInterface {
+            public function isAsync(): void
+            {
+                throw new UnavailableLinterException('oh noes ...');
+            }
+
+            public function lintFile($path): void
+            {
+                throw new UnavailableLinterException('oh noes ...');
+            }
+
+            public function lintSource($source): void
+            {
+                throw new UnavailableLinterException('oh noes ...');
+            }
+        };
+    }
+
+    private function mockErrorDiffer(): Differ
+    {
+        return new Differ(new class() implements DiffOutputBuilderInterface {
+            public function getDiff(array $diff): string
+            {
+                throw new \RuntimeException('Oh noes');
+            }
+        });
     }
 }

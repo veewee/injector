@@ -18,7 +18,8 @@ final class MethodByNameOperator implements TokenOperatorInterface
     public function searchIndex(Tokens $tokens, int $previousIndex, string $location): ?int
     {
         $methodName = $this->parseMethodName($location);
-        while ($index = $tokens->getNextTokenOfKind($previousIndex, [[T_FUNCTION]])) {
+        $index = $previousIndex;
+        while ($index = $tokens->getNextTokenOfKind($index, [[T_FUNCTION]])) {
             $nameIndex = $tokens->getNextMeaningfulToken($index);
             if ($tokens[$nameIndex]->getContent() === $methodName) {
                 return $index;

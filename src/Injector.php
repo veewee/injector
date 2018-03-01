@@ -51,11 +51,24 @@ final class Injector
             $this->linter->lintSource($newCode)->check();
         } catch (Throwable $exception) {
             $result = $result->withException($exception);
-        } finally {
-            if (isset($sourceCode, $newCode)) {
-                $result = $result->withDiff(
-                    $this->differ->diff($sourceCode, $newCode)
-                );
+        }
+
+        if (isset($sourceCode, $newCode)) {
+            $result = $this->runDiff($result, $sourceCode, $newCode);
+        }
+
+        return $result;
+    }
+
+    private function runDiff(InjectionResult $result, string $sourceCode, string $newCode): InjectionResult
+    {
+        try {
+            $result = $result->withDiff(
+                $this->differ->diff($sourceCode, $newCode)
+            );
+        } catch (\Throwable $exception) {
+            if (!$result->hasException()) {
+                $result = $result->withException($exception);
             }
         }
 
