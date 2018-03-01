@@ -14,4 +14,4 @@ install:
   - travis_retry composer update --no-progress --profile --no-scripts --no-suggest
 
 script:
-   - bin/grumphp run
+   - ./vendor/bin/grumphp run
