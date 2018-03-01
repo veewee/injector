@@ -27,8 +27,6 @@ final class OperatorStack implements TokenOperatorInterface
         $files = Finder::create()
             ->files()
             ->in(__DIR__)
-            ->notName('OperatorStack.php')
-            ->notName('TokenOperatorInterface.php')
             ->getIterator();
 
         foreach ($files as $file) {

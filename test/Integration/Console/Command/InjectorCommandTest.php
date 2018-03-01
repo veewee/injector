@@ -106,6 +106,24 @@ class InjectorCommandTest extends TestCase
         $this->assertSame('<?php ', file_get_contents($file));
     }
 
+    public function test_it_does_not_write_invalid_copy_pasted_data_to_file(): void
+    {
+        $tester = $this->createCommandTester('invalid PHP;');
+        $tester->execute([
+            'src' => $this->fileSystem->path('/src'),
+            'location' => '>',
+        ]);
+
+        $file = $this->fileSystem->path('/src/helloworld.php');
+        $expectedCode = '<?php invalid PHP;';
+        $expectedDiff = $this->differ->diff('<?php ', $expectedCode);
+
+        $this->assertEquals(1, $tester->getStatusCode());
+        $this->assertContains('Could not copy / paste in '.$file, $tester->getDisplay());
+        $this->assertContains($expectedDiff, $tester->getDisplay());
+        $this->assertSame('<?php ', file_get_contents($file));
+    }
+
     public function test_it_writes_copy_pasted_data_to_file(): void
     {
         $tester = $this->createCommandTester('echo "Hello world";');

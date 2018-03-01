@@ -10,7 +10,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Injector\Locator\EndBlockOperator
+ * @covers \Injector\Locator\Operator\EndBlockOperator
  */
 class EndBlockOperatorTest extends TestCase
 {
