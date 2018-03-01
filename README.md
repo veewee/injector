@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/veewee/injector.svg?branch=master)](https://travis-ci.org/veewee/injector)
+
 # injector
 Copy / paste code at specific locations in a list of files
 
