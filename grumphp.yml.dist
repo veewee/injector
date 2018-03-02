@@ -29,11 +29,10 @@ parameters:
       level: 100
       metadata:
         priority: 5000
-        blocking: false
     infection:
       threads: 4
       test_framework: phpunit
-      only_covered: false
+      only_covered: true
       min_msi: 100
       min_covered_msi: 100
       metadata:

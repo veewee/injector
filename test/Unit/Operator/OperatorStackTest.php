@@ -10,6 +10,8 @@ use Injector\Locator\Operator\TokenOperatorInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use stdClass;
+use Throwable;
 
 /**
  * @covers \Injector\Locator\Operator\OperatorStack
@@ -24,6 +26,16 @@ class OperatorStackTest extends TestCase
     public function test_it_can_create_a_default_operator_stack(): void
     {
         $this->assertInstanceOf(TokenOperatorInterface::class, OperatorStack::getDefaultStack());
+    }
+
+    public function test_it_is_possible_to_add_an_operator(): void
+    {
+        $tokenOperator = $this->prophesize(TokenOperatorInterface::class);
+        $operator = new OperatorStack();
+        $operator->add($tokenOperator->reveal());
+
+        $this->expectException(Throwable::class);
+        $operator->add(new stdClass());
     }
 
     /**

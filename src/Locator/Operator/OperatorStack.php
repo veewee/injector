@@ -6,7 +6,9 @@ namespace Injector\Locator\Operator;
 
 use Injector\Exception\LocationException;
 use PhpCsFixer\Tokenizer\Tokens;
+use ReflectionClass;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Throwable;
 
 final class OperatorStack implements TokenOperatorInterface
@@ -29,15 +31,22 @@ final class OperatorStack implements TokenOperatorInterface
             ->in(__DIR__)
             ->getIterator();
 
-        foreach ($files as $file) {
-            $class = new \ReflectionClass(__NAMESPACE__.'\\'.$file->getBasename('.php'));
-            // Skip current class and interfaces
-            if (__CLASS__ === $class->getName() || $class->isInterface()) {
-                continue;
-            }
-
-            $stack->add($class->newInstance());
-        }
+        array_map(
+            function (ReflectionClass $class) use ($stack): void {
+                $stack->add($class->newInstance());
+            },
+            array_filter(
+                array_map(
+                    function (SplFileInfo $file) {
+                        return new ReflectionClass(__NAMESPACE__.'\\'.$file->getBasename('.php'));
+                    },
+                    iterator_to_array($files)
+                ),
+                function (ReflectionClass $class) {
+                    return __CLASS__ !== $class->getName() && !$class->isInterface();
+                }
+            )
+        );
 
         return $stack;
     }

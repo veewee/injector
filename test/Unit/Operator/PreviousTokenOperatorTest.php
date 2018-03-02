@@ -49,9 +49,12 @@ class PreviousTokenOperatorTest extends TestCase
     public function providesSearchIndexesData()
     {
         return [
+            ['<?php class SomeClass { }', '<', -1, null],
             ['<?php class SomeClass { }', '<', 0, null],
+            ['<?php class SomeClass { }', '<', 1, 0],
             ['<?php class SomeClass { }', '<', 2, 1],
             ['<?php class SomeClass { }', '<', 8, 7],
+            ['<?php class SomeClass { }', '<', 9, null],
             ['<?php class SomeClass { }', '<', 10, null],
             ['<?php class SomeClass { }', '<', 99, null],
             ['<?php class SomeClass { }', '<', 0, null],

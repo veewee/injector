@@ -52,6 +52,17 @@ class ConsoleStyleTest extends TestCase
         fclose($stream);
     }
 
+    public function test_it_runs_in_non_blocking_mode(): void
+    {
+        $stream = fopen(__FILE__, 'rb');
+        $style = new ConsoleStyle(new ArrayInput([]), new ConsoleOutput());
+        $style->readResource($stream);
+
+        $meta = stream_get_meta_data($stream);
+
+        $this->assertFalse($meta['blocked']);
+    }
+
     public function test_it_can_read_a_resource_and_strips_the_last_newline_at_eof(): void
     {
         $stream = fopen('php://temp', 'rwb');

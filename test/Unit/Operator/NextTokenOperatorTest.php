@@ -44,6 +44,7 @@ class NextTokenOperatorTest extends TestCase
     {
         return [
             ['<?php class SomeClass { }', '>', -2, null],
+            ['<?php class SomeClass { }', '>', -1, 0],
             ['<?php class SomeClass { }', '>', 0, 1],
             ['<?php class SomeClass { }', '>', 1, 2],
             ['<?php class SomeClass { }', '>', 7, 8],

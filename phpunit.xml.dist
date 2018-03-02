@@ -10,6 +10,10 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>
+            <exclude>
+                <file>src/Locator/Analyzer/NamespaceUsesAnalyzer.php</file>
+                <file>src/Locator/Analyzer/Analysis/NamespaceUseAnalysis.php</file>
+            </exclude>
         </whitelist>
     </filter>
     <logging>

@@ -3,6 +3,10 @@
   "source": {
     "directories": [
       "src"
+    ],
+    "excludes": [
+      "Locator/Analyzer/NamespaceUsesAnalyzer.php",
+      "Locator/Analyzer/Analysis/NamespaceUsesAnalysis.php"
     ]
   },
   "logs": {
