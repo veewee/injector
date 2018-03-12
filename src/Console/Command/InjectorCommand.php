@@ -54,6 +54,7 @@ class InjectorCommand extends Command
         $files = Finder::create()
             ->files()
             ->in($input->getArgument('src'))
+            ->depth(0)
             ->name('*.php')
             ->getIterator();
         $data = Tokens::fromCode($style->readResource($this->inputStream));
