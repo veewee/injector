@@ -3,13 +3,17 @@
   "source": {
     "directories": [
       "src"
-    ],
-    "excludes": [
-      "Locator/Analyzer/NamespaceUsesAnalyzer.php",
-      "Locator/Analyzer/Analysis/NamespaceUsesAnalysis.php"
     ]
   },
   "logs": {
     "text": "var/infection-log.txt"
+  },
+  "mutators": {
+    "@default": true,
+    "LessThan": {
+      "ignore": [
+        "Injector\\Locator\\Operator\\NewUseLocationOperator::searchIndex"
+      ]
+    }
   }
 }

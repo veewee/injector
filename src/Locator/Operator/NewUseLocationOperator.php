@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Injector\Locator\Operator;
 
 use Injector\Exception\LocationException;
-use Injector\Locator\Analyzer\NamespaceUsesAnalyzer;
+use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Tokens;
 
 final class NewUseLocationOperator implements TokenOperatorInterface

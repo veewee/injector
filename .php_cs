@@ -14,6 +14,7 @@ return PhpCsFixer\Config::create()
         'doctrine_annotation_indentation' => true,
         'doctrine_annotation_spaces' => true,
         'general_phpdoc_annotation_remove' => false,
+        'fully_qualified_strict_types' => true,
         'header_comment' => false,
         'heredoc_to_nowdoc' => false,
         'linebreak_after_opening_tag' => true,
